@@ -1,0 +1,18 @@
+services:
+  ec2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3022:22"     # SSH
+      - "2375:2375"   # Docker daemon
+      - "8080:80"     # HTTP for Nginx to serve the website
+    volumes:
+      - ec2_data:/home/ubuntu
+    security_opt:
+      - seccomp:unconfined
+    privileged: true
+
+volumes:
+  ec2_data:
+    driver: local
